@@ -31,11 +31,15 @@ const removeTodo = (todo: Todo) => {
   <div class="todo">
     <h1>Todos</h1>
     <ul>
-      <li v-for="(todo, index) in todos" v-bind:key="todo.id" @click="toggleTodoCompletion(todo)">
-        {{ index + 1 }}. {{ todo.title }}.
-        {{ todo.isDone ? "Yes, it's " : "No, it's " }}
-        <span v-if="todo.isDone">Done</span>
-        <span v-else>Not Done</span>
+      <li
+        v-for="(todo, index) in todos"
+        v-bind:key="todo.id"
+        @click="toggleTodoCompletion(todo)"
+        class="todo-item"
+      >
+        {{ index + 1 }}. {{ todo.title }}
+        <span v-if="todo.isDone" class="material-icons done">done</span>
+        <span v-else class="material-icons not-done">close</span>
       </li>
     </ul>
     <form @submit.prevent="addNewTodo" class="input-container">
@@ -47,7 +51,24 @@ const removeTodo = (todo: Todo) => {
 
 <style scoped lang="scss">
 .todo {
+  width: 500px;
+  margin: 80px auto;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  border-radius: 5px;
   padding: 2rem;
+
+  h1 {
+    text-align: center;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  &-item {
+    display: flex;
+    gap: 0.25rem;
+  }
 }
 
 .input-container {
@@ -56,5 +77,12 @@ const removeTodo = (todo: Todo) => {
   .add-button {
     margin-left: 0.5rem;
   }
+}
+
+.done {
+  color: green;
+}
+.not-done {
+  color: red;
 }
 </style>
