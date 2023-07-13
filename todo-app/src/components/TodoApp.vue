@@ -13,7 +13,17 @@ const addNewTodo = () => {
 }
 
 const toggleTodoCompletion = (todo: Todo) => {
+  if (todo.isDone) {
+    removeTodo(todo)
+  }
   todo.isDone = !todo.isDone
+}
+
+const removeTodo = (todo: Todo) => {
+  const index = todos.value.findIndex((t) => t.id === todo.id)
+  if (index !== -1) {
+    todos.value.splice(index, 1)
+  }
 }
 </script>
 
