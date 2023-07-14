@@ -3,6 +3,7 @@ import { fetchUsers } from '@/api/user'
 import type { User } from '@/types/user'
 import { onMounted, ref } from 'vue'
 import UserCard from '../components/user/UserCard.vue'
+import StyledButton from '../components/common/StyledButton.vue'
 
 const users = ref<User[]>([])
 const isLoading = ref(false)
@@ -30,17 +31,30 @@ const selectUser = (user: User) => {
     selectedUser.value = user
   }
 }
+
+const visitProfile = () => {
+  console.log(selectedUser.value?.name)
+}
 </script>
 
 <template>
   <main>
     <h1>Users</h1>
-    <h2 v-if="selectedUser">You selected {{ selectedUser.name }}</h2>
-    <h2 v-else>&nbsp;</h2>
+    <div v-if="selectedUser" class="selected">
+      <h2>You selected {{ selectedUser.name }}</h2>
+      <StyledButton @click="visitProfile">Visit profile</StyledButton>
+    </div>
+    <div v-else class="selected"><h2>&nbsp;</h2></div>
     <div v-if="error">{{ error }}</div>
     <div v-else-if="isLoading">Loading...</div>
     <div v-else>
-      <UserCard v-for="user in users" :key="user.id" :user="user" :selectUser="selectUser" />
+      <UserCard
+        v-for="user in users"
+        :key="user.id"
+        :user="user"
+        :isSelected="user.id === selectedUser?.id"
+        :selectUser="selectUser"
+      />
     </div>
   </main>
 </template>
@@ -53,5 +67,13 @@ h1 {
 h2 {
   text-align: center;
   color: green;
+}
+
+.selected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 </style>
