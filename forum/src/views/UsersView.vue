@@ -1,14 +1,18 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import UserCard from '@/components/user/UserCard.vue'
+import StyledButton from '@/components/common/StyledButton.vue'
 import { fetchUsers } from '@/api/user'
 import type { User } from '@/types/user'
-import { onMounted, ref } from 'vue'
-import UserCard from '../components/user/UserCard.vue'
-import StyledButton from '../components/common/StyledButton.vue'
+import { RouteNames } from '@/router'
 
 const users = ref<User[]>([])
 const isLoading = ref(false)
 const error = ref('')
 const selectedUser = ref<User>()
+
+const router = useRouter()
 
 onMounted(async () => {
   try {
@@ -33,7 +37,7 @@ const selectUser = (user: User) => {
 }
 
 const visitProfile = () => {
-  console.log(selectedUser.value?.name)
+  router.push({ name: RouteNames.User, params: { id: selectedUser.value?.id } })
 }
 </script>
 
