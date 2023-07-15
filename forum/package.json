@@ -14,6 +14,7 @@
   "dependencies": {
     "@tanstack/vue-query": "^4.29.20",
     "axios": "^1.4.0",
+    "sass": "^1.63.6",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2"
   },
