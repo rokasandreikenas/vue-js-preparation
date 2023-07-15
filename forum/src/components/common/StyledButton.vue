@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-  color: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info'
+  color?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info'
 }
 
 withDefaults(defineProps<Props>(), {
