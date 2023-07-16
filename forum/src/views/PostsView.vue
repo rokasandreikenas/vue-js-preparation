@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import PostCard from '@/components/post/PostCard.vue'
 import { usePosts } from '../hooks/post'
+
 const { data: posts, isLoading } = usePosts()
 </script>
 
@@ -7,9 +9,7 @@ const { data: posts, isLoading } = usePosts()
   <main>
     <h1>Posts</h1>
     <div v-if="isLoading">Loading...</div>
-    <div v-for="post in posts" :key="post.id">
-      {{ post.title }}
-    </div>
+    <PostCard v-for="post in posts" :key="post.id" :post="post" />
   </main>
 </template>
 
