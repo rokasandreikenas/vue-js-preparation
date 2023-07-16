@@ -3,8 +3,7 @@ import { Form } from 'vee-validate'
 import * as yup from 'yup'
 import StyledButton from '../common/StyledButton.vue'
 import StyledField from '../common/StyledField.vue'
-import { createPost } from '@/api/post'
-
+import { useCreatePost } from '@/hooks/post'
 const props = defineProps<{
   onConfirm: () => void
 }>()
@@ -19,17 +18,17 @@ const schema = yup.object().shape({
   body: yup.string().required('Required')
 })
 
-const onSubmit = (values: Record<string, unknown>) => {
-  const typedValues = values as FormValues
-  const post = { ...typedValues, userId: 1 }
-  createPost(post)
-    .then(() => {
-      props.onConfirm()
-      console.log('success')
-    })
-    .catch((err) => {
-      console.error('failed to create post', err)
-    })
+const { mutateAsync, isLoading } = useCreatePost()
+
+const onSubmit = async (values: Record<string, unknown>) => {
+  try {
+    const typedValues = values as FormValues
+    const post = { ...typedValues, userId: 1 }
+    await mutateAsync(post)
+    props.onConfirm()
+  } catch (error) {
+    console.error('failed to create post', error)
+  }
 }
 </script>
 
@@ -37,7 +36,7 @@ const onSubmit = (values: Record<string, unknown>) => {
   <Form :validation-schema="schema" @submit="onSubmit">
     <StyledField name="title" label="Title" class="field" />
     <StyledField name="body" label="Body" class="field" as="textarea" rows="4" />
-    <StyledButton type="submit">Submit</StyledButton>
+    <StyledButton type="submit" :disabled="isLoading">Submit</StyledButton>
   </Form>
 </template>
 

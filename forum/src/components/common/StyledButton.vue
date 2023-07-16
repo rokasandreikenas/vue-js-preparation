@@ -1,10 +1,12 @@
 <script setup lang="ts">
 interface Props {
   color?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info'
+  disabled?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  color: 'primary'
+  color: 'primary',
+  disabled: false
 })
 
 const emit = defineEmits<{ click: [e: MouseEvent] }>()
@@ -15,7 +17,7 @@ const handleClick = (event: MouseEvent) => {
 </script>
 
 <template>
-  <button class="btn" :class="color" @click="handleClick">
+  <button class="btn" :class="color" @click="handleClick" :disabled="disabled">
     <slot></slot>
   </button>
 </template>
@@ -28,12 +30,17 @@ const handleClick = (event: MouseEvent) => {
   border: none;
   color: #fff;
   cursor: pointer;
+
+  &:disabled {
+    background-color: grey;
+  }
 }
 
 .primary {
   background-color: #007bff;
 
-  &:hover {
+  &:hover,
+  &:not('disabled') {
     background-color: #035ec0;
   }
 }
