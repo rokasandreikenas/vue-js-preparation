@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePosts } from '../hooks/post'
-import { useModal } from 'vue-final-modal'
+import { useModal, useModalSlot } from 'vue-final-modal'
 import CustomModal from '@/components/common/CustomModal.vue'
 import StyledButton from '@/components/common/StyledButton.vue'
 import CreatePostForm from '@/components/post/CreatePostForm.vue'
@@ -8,13 +8,20 @@ import PostCard from '@/components/post/PostCard.vue'
 
 const { data: posts, isLoading } = usePosts()
 
-const { open } = useModal({
+const { open, close } = useModal({
   component: CustomModal,
   attrs: {
     title: 'Create Post'
   },
   slots: {
-    default: CreatePostForm
+    default: useModalSlot({
+      component: CreatePostForm,
+      attrs: {
+        onConfirm() {
+          close()
+        }
+      }
+    })
   }
 })
 </script>
